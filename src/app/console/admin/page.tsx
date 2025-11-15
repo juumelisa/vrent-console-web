@@ -1,11 +1,11 @@
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: 'Vehicles - vrent'
+  title: 'Admin - vrent'
 }
 
 export default function vehicles () {
   return (
-    <div>VEHICLE</div>
+    <div>ADMIN LIST</div>
   )
 }
