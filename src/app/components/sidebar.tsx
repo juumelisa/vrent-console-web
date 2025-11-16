@@ -51,7 +51,7 @@ export default function Sidebar () {
 
   return (
     <div className={`relative w-full ${open ? 'max-w-60' : 'max-w-20'} h-full bg-white rounded-xl transition-all duration-500`}>
-      <div className={`flex ${open ? 'justify-between' : 'justify-center'} p-5 border-b border-gray-200`}>
+      <div className={`flex ${open ? 'justify-between' : 'justify-center'} p-6 border-b border-gray-200`}>
         {open && <Image
           src={logo}
           alt="vrent logo"
@@ -59,18 +59,18 @@ export default function Sidebar () {
           height={28} />}
         <button
           onClick={changeSidebarState}
-          className="text-blue-900">
+          className="text-primary">
           {open && <TbLayoutSidebarLeftCollapse className="size-7"/>}
           {!open && <TbLayoutSidebarRightCollapse className="size-7"/>}
         </button>
       </div>
-      <div className="py-5 px-2">
+      <div className="py-5 px-3">
         <div className="flex flex-col gap-2">
           {menuList.map((menu, index) => 
           <Link
             key={index}
             href={menu.to}
-            className={`flex gap-3 capitalize items-center ${open ? '' : 'justify-center'} px-3 py-3 ${menu.isCurrent ? 'bg-blue-900 text-white' : 'hover:bg-blue-50'} rounded-md`}>
+            className={`flex gap-3 capitalize items-center ${open ? '' : 'justify-center'} px-3 py-3 ${menu.isCurrent ? 'bg-linear-to-r from-primary to-blue-400 text-white' : 'hover:bg-blue-50'} rounded-md`}>
             <menu.icon className="size-7"/>
             <span className={open ? "h-7 overflow-hidden" : "md:hidden"}>{menu.label}</span>
           </Link>
@@ -83,7 +83,7 @@ export default function Sidebar () {
             <p>Wonwoo Jeon</p>
             <p className="text-sm">Super Admin</p>
           </div>
-          <Link href="/logout" className="text-blue-900">
+          <Link href="/logout" className="text-primary">
             <MdLogout className="size-7"/>
           </Link>
         </div>

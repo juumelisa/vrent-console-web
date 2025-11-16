@@ -42,7 +42,7 @@ export default function Home() {
               priority
             />
         </div>
-        <div className="w-full h-full absolute top-0 bg-blue-900/50 flex justify-center items-center p-5">
+        <div className="w-full h-full absolute top-0 bg-primary/50 flex justify-center items-center p-5">
           <div className="w-full max-w-lg bg-white p-5 rounded-lg flex flex-col items-center">
             <Image
               src={logo}
@@ -51,7 +51,7 @@ export default function Home() {
               height={40}
               priority
             />
-            <p className="font-semibold text-blue-900 text-center">Welcome Back</p>
+            <p className="font-semibold text-primary text-center">Welcome Back</p>
             <p>Sign in to access your account</p>
             <form
               onSubmit={submitForm}
@@ -81,7 +81,7 @@ export default function Home() {
                     <button
                       onClick={changePasswordState}
                       type="button"
-                      className="text-blue-900 absolute h-full px-2 right-0">
+                      className="text-primary absolute h-full px-2 right-0">
                       {showPassword && <LuEye />}
                       {!showPassword && <LuEyeClosed />}
                     </button>
@@ -91,17 +91,17 @@ export default function Home() {
                 onClick={changeRememberState}
                 type="button"
                 className="flex gap-2 items-center">
-                  <div className="w-4 h-4 border border-blue-900 relative">
-                    {isRemember && <FaCheck className="absolute size-5 text-blue-900 -left-0.5 -top-1"/>}
+                  <div className="w-4 h-4 border border-primary relative">
+                    {isRemember && <FaCheck className="absolute size-5 text-primary -left-0.5 -top-1"/>}
                   </div>
                   <span>Remember Me</span>
               </button>
               <button
                 type="submit"
-                className="bg-blue-900 text-white w-full rounded py-2">
+                className="bg-primary text-white w-full rounded py-2">
                 Sign in
               </button>
-              <Link href="/forgot-password" className="text-center text-blue-900 font-semibold">Forgot Password</Link>
+              <Link href="/forgot-password" className="text-center text-primary font-semibold">Forgot Password</Link>
             </form>
           </div>
         </div>
