@@ -50,7 +50,7 @@ export default function Sidebar () {
   }
 
   return (
-    <div className={`absolute lg:relative w-full ${open ? 'lg:max-w-60' : 'lg:max-w-20'} h-full rounded-xl transition-all duration-500`}>
+    <div className={`absolute lg:relative w-full ${open ? 'lg:max-w-60' : 'lg:max-w-20'} lg:h-full rounded-xl transition-all duration-500`}>
       <div className={`relative z-40 flex flex-row-reverse lg:flex-row justify-between ${open ? '' : 'lg:justify-center'} p-6 border-b border-gray-200 bg-white lg:rounded-t-xl`}>
         <div className="lg:hidden"/>
         <div
@@ -69,7 +69,7 @@ export default function Sidebar () {
           {!open && <TbLayoutSidebarRightCollapse className="size-7"/>}
         </button>
       </div>
-      <div className={`absolute z-30 top-0 pt-19 h-full flex transition-all duration-500 w-full ${open ? 'left-0' : '-left-full lg:left-0'}`}>
+      <div className={`absolute z-30 top-0 pt-19 h-screen lg:h-full flex transition-discrete duration-500 w-full ${open ? 'left-0' : '-left-full lg:left-0'}`}>
         <div className="w-60 min-w-60 lg:min-w-full lg:w-full h-full border-r lg:border-0 border-gray-200 relative bg-white lg:rounded-b-xl">
           <div className="py-5 px-3">
             <div className="flex flex-col gap-2">
