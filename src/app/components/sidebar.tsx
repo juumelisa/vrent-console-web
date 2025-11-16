@@ -5,11 +5,12 @@ import { TbLayoutSidebarLeftCollapse, TbLayoutSidebarRightCollapse } from "react
 import {useState } from "react"
 import Link from "next/link"
 import { MdDirectionsCar, MdDvr, MdLogout, MdOutlineAdminPanelSettings, MdOutlineDashboard, MdOutlinePeople } from "react-icons/md"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 
 export default function Sidebar () {
   const currentPath = usePathname()
-  const [open, setOpen] = useState<boolean>(true)
+  const router = useRouter()
+  const [open, setOpen] = useState<boolean>(false)
 
   const menuList = [
     {
@@ -48,7 +49,12 @@ export default function Sidebar () {
     const newValue = !open
     setOpen(newValue)
   }
-
+  const changeRoute = (to: string) => {
+    if (window.innerWidth < 1024) {
+      setOpen(false)
+    }
+    router.push(to)
+  }
   return (
     <div className={`absolute lg:relative w-full ${open ? 'lg:max-w-60' : 'lg:max-w-20'} lg:h-full rounded-xl transition-all duration-500`}>
       <div className={`relative z-40 flex flex-row-reverse lg:flex-row justify-between ${open ? '' : 'lg:justify-center'} p-6 border-b border-gray-200 bg-white lg:rounded-t-xl`}>
@@ -64,7 +70,7 @@ export default function Sidebar () {
         </div>
         <button
           onClick={changeSidebarState}
-          className="text-primary">
+          className="text-primary cursor-pointer">
           {open && <TbLayoutSidebarLeftCollapse className="size-7"/>}
           {!open && <TbLayoutSidebarRightCollapse className="size-7"/>}
         </button>
@@ -74,13 +80,13 @@ export default function Sidebar () {
           <div className="py-5 px-3">
             <div className="flex flex-col gap-2">
               {menuList.map((menu, index) => 
-              <Link
+              <button
+                onClick={() => changeRoute(menu.to)}
                 key={index}
-                href={menu.to}
-                className={`flex gap-3 capitalize items-center ${open ? '' : 'lg:justify-center'} px-3 py-3 ${menu.isCurrent ? 'bg-linear-to-r from-primary to-blue-400 text-white' : 'hover:bg-blue-50'} rounded-md`}>
+                className={`cursor-pointer flex gap-3 capitalize items-center ${open ? '' : 'lg:justify-center'} px-3 py-3 ${menu.isCurrent ? 'bg-linear-to-r from-primary to-blue-400 text-white' : 'hover:bg-blue-50'} rounded-md`}>
                 <menu.icon className="size-7"/>
                 <span className={open ? "overflow-hidden" : "md:hidden"}>{menu.label}</span>
-              </Link>
+              </button>
               )}
             </div>
           </div>
