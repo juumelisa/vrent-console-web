@@ -1,5 +1,8 @@
 import { Metadata } from "next"
 import { TfiStatsUp } from "react-icons/tfi"
+import LineChartDemo from "../components/LineChart"
+import PieChartDemo from "../components/PieChart"
+import BarChartDemo from "../components/BarChart"
 
 export const metadata: Metadata = {
   title: 'Dashboard - vrent'
@@ -41,6 +44,19 @@ export default function Console () {
           </p>
         </div>
       </div>
+      <div className="w-full grid grid-cols-2 gap-5 mt-5">
+
+      <div className="w-full border border-line rounded-lg p-5">
+          <BarChartDemo />
+        </div>
+        <div className="w-full h-90 border border-line rounded-lg p-5 flex justify-center items-center">
+          <PieChartDemo />
+        </div>
+      </div>
+
+      <div className="w-full border border-line rounded-lg p-5">
+          <LineChartDemo />
+        </div>
     </div>
   )
 }
