@@ -85,14 +85,14 @@ export default function Sidebar () {
                 key={index}
                 className={`cursor-pointer flex gap-3 capitalize items-center ${open ? '' : 'lg:justify-center'} px-3 py-3 ${menu.isCurrent ? 'bg-linear-to-r from-primary to-blue-400 text-white' : 'hover:bg-blue-50'} rounded-md`}>
                 <menu.icon className="size-7"/>
-                <span className={open ? "overflow-hidden" : "md:hidden"}>{menu.label}</span>
+                <span className={open ? "overflow-hidden" : "lg:hidden"}>{menu.label}</span>
               </button>
               )}
             </div>
           </div>
           <div className="w-full absolute bottom-0 p-5 border-t border-gray-200">
             <div className={`flex justify-between ${open ? ' ' : 'lg:justify-center'} items-center gap-2`}>
-              <div className={open ? "h-11 overflow-hidden" : "md:hidden"}>
+              <div className={open ? "h-11 overflow-hidden" : "lg:hidden"}>
                 <p>Wonwoo Jeon</p>
                 <p className="text-sm">Super Admin</p>
               </div>

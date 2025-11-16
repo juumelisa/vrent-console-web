@@ -12,6 +12,8 @@ export default function Home() {
   const router = useRouter()
   const [isRemember, setIsRemember] = useState<boolean>(false)
   const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
+  const [errorMessage, setErrorMessage] = useState<string>('')
 
   const changeRememberState = () => {
     const newValue = !isRemember
@@ -23,13 +25,30 @@ export default function Home() {
     setShowPassword(newValue)
   }
 
-  const submitForm = (event: FormEvent<HTMLFormElement>) => {
+  const submitForm = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    setErrorMessage('')
+    setLoading(true)
     const form = event.target as HTMLFormElement
     const formData = new FormData(form)
-    console.log(formData.get("password"))
-    router.push('/console')
+    const body = {
+      email: formData.get("email"),
+      password: formData.get("password")
+    }
+    const res = await fetch ('/api/login', {
+      method: 'POST',
+      body: JSON.stringify(body)
+    })
+    const rest = await res.json();
+    if (rest.code === 200) {
+      router.push("/console")
+    } else {
+      setErrorMessage(rest.message)
+      console.log(rest)
+    }
+    setLoading(false)
   }
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-white font-sans">
       <main className="w-full flex">
@@ -87,6 +106,7 @@ export default function Home() {
                     </button>
                 </div>
               </div>
+              {errorMessage && <p className="text-red-600 italic capitalize">{errorMessage}</p>}
               <button
                 onClick={changeRememberState}
                 type="button"
@@ -105,6 +125,9 @@ export default function Home() {
             </form>
           </div>
         </div>
+        {loading && <div className="absolute top-0 left-0 bg-black/20 flex justify-center items-center w-full h-full">
+          <div className="w-10 h-10 border-4 border-primary border-b-primary/30 rounded-full animate-spin" />
+        </div>}
       </main>
     </div>
   );
