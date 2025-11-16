@@ -6,9 +6,9 @@ export default function Layout ({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="w-full h-screen flex p-5 bg-gray-100 gap-5">
+    <div className="w-full h-screen flex lg:p-5 bg-gray-100 gap-5">
       <Sidebar />
-      <div className="w-full bg-white rounded-xl p-5">
+      <div className="w-full bg-white rounded-xl px-5 py-20 lg:py-5">
         {children}
       </div>
     </div>
