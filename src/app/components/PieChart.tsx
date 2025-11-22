@@ -10,6 +10,7 @@ import {
   Tooltip,
   Legend,
   ArcElement,
+  ChartOptions,
 } from "chart.js";
 import { Pie } from "react-chartjs-2";
 
@@ -37,7 +38,7 @@ const data = {
   ]
 };
 
-  const options = {
+  const options: ChartOptions<"pie"> = {
     responsive: true,
     plugins: {
       legend: { position: "top" },

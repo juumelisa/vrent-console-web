@@ -23,25 +23,25 @@ export default function Sidebar () {
       label: 'vehicles',
       to: '/console/vehicles',
       icon: MdDirectionsCar,
-      isCurrent: currentPath.startsWith('/console/vehicles')
+      isCurrent: currentPath?.startsWith('/console/vehicles')
     },
     {
       label: 'transaction',
       to: '/console/transaction',
       icon: MdDvr,
-      isCurrent: currentPath.startsWith('/console/transaction')
+      isCurrent: currentPath?.startsWith('/console/transaction')
     },
     {
       label: 'customers',
       to: '/console/customers',
       icon: MdOutlinePeople,
-      isCurrent: currentPath.startsWith('/console/customers')
+      isCurrent: currentPath?.startsWith('/console/customers')
     },
     {
       label: 'admin',
       to: '/console/admin',
       icon: MdOutlineAdminPanelSettings,
-      isCurrent: currentPath.startsWith('/console/admin')
+      isCurrent: currentPath?.startsWith('/console/admin')
     }
   ]
 

@@ -2,14 +2,11 @@
 
 import {
   Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
   Title,
   Tooltip,
   Legend,
   BarElement,
+  ChartOptions,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 
@@ -33,7 +30,7 @@ export default function BarChartDemo() {
     ],
   };
 
-  const options = {
+  const options: ChartOptions<"bar"> = {
     responsive: true,
     plugins: {
       legend: { position: "top" },
