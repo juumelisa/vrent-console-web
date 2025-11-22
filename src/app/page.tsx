@@ -44,7 +44,6 @@ export default function Home() {
       router.push("/console")
     } else {
       setErrorMessage(rest.message)
-      console.log(rest)
     }
     setLoading(false)
   }

@@ -1,4 +1,10 @@
+import { Metadata } from "next";
 import Sidebar from "../components/sidebar";
+
+
+export const metadata: Metadata = {
+  title: 'Dashboard - vrent'
+}
 
 export default function Layout ({
   children,
