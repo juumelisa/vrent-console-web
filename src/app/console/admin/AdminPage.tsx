@@ -5,6 +5,7 @@ import Image from "next/image"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { ChangeEvent, useEffect, useState } from "react"
 import { BiFilter } from "react-icons/bi"
+import { FaUser } from "react-icons/fa"
 
 type Admin = {
   id: string,
@@ -58,6 +59,20 @@ export default function AdminPage () {
     let url = "/api/admin"
     const fetchAdminList = async() => {
       setLoading(true)
+      const adminLoad = []
+      if (!admins.length) {
+        for (let x = 0; x < 5; x++) {
+          adminLoad.push({
+            id: String(x),
+            name: "",
+            email: "",
+            role: "",
+            profile_picture: "",
+            cssRole: ""
+          })
+        }
+      }
+      setAdmins(adminLoad)
       const params = new URLSearchParams(searchParams.toString());
       url += `?${params.toString()}`
       const res = await fetch(url)
@@ -78,6 +93,7 @@ export default function AdminPage () {
         })
         setAdmins(tempAdmin)
       } else {
+        setAdmins([])
         console.log('error')
       }
       setLoading(false)
@@ -95,7 +111,7 @@ export default function AdminPage () {
   return (
     <div>
       <div className="flex justify-end mb-5 gap-3">
-        <button className="px-5 py-2 border border-line bg-white flex gap-2 items-center">
+        <button className="px-5 py-2 border border-line rounded bg-white flex gap-2 items-center">
           <BiFilter size={24}/>
           Filter
         </button>
@@ -122,6 +138,9 @@ export default function AdminPage () {
           </tr>
         </thead>
         <tbody>
+          {!admins.length && <tr>
+            <td colSpan={5} className="py-6 text-center bg-white rounded-b-xl border-x border-b border-line">No data</td>
+          </tr>}
           {admins.map((admin, index) =>
             <tr key={admin.id} className={`hover:bg-gray-50 bg-white ${index < admins.length - 1 ? 'border-b border-line' : 'rounded-b-xl'}`}>
               <td className={`px-4 py-3 border-b border-l border-line ${index == admins.length - 1 ? 'rounded-bl-xl' : ''}`}>
@@ -129,14 +148,17 @@ export default function AdminPage () {
                 {!loading && <div>{index + 1}.</div>}
               </td>
               <td className="px-4 py-3 border-b border-line">
-                <div className="w-12 h-12 relative">
-                  {!loading && <Image
-                    src={admin.profile_picture || "https://res.cloudinary.com/dme13qwgd/image/upload/v1759140504/VRent/1759140496555.jpg"}
+                {!loading && <div className="w-12 h-12 relative">
+                  {admin.profile_picture && <Image
+                    src={admin.profile_picture}
                     fill
                     alt={admin.name}
                     className="object-cover rounded-full" />}
-                  {loading && <div className="w-full h-full bg-line animate-pulse rounded-full" />}
-                </div>
+                  {!admin.profile_picture && <div className="w-full h-full rounded-full border border-primary flex justify-center items-center">
+                    <FaUser size={28} className="text-primary"/>
+                  </div>}
+                </div>}
+                {loading && <div className="w-12 h-12 bg-line animate-pulse rounded-full" />}
               </td>
               <td className="px-4 py-3 border-b border-line capitalize">
                 {loading && <div className="w-full h-5 animate-pulse bg-line" />}

@@ -1,8 +1,10 @@
-import { useState } from "react"
+import { FormEvent, useState } from "react"
 import { GrClose } from "react-icons/gr"
 import Input from "../Input"
+import { useRouter } from "next/navigation"
 
 export default function AddAdmin() {
+  const router = useRouter()
   const [showModal, setShowModal] = useState(false)
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
@@ -14,9 +16,29 @@ export default function AddAdmin() {
     }
     setShowModal(newValue)
   }
+
+  const submitForm = async(e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const body = {
+      name,
+      email,
+      password: "12345678",
+      profile_picture: "https://res.cloudinary.com/dme13qwgd/image/upload/v1752902764/cld-sample-2.jpg",
+      role: "staff"
+    }
+    const res = await fetch("/api/admin", {
+      method: "POST",
+      body: JSON.stringify(body)
+    })
+    const data = await res.json()
+    if (data.code === 200) {
+      router.refresh()
+      setShowModal(false)
+    }
+  }
   return (
     <div>
-      <button onClick={changeModalState} className="bg-primary border border-primary text-white rounded px-3 py-2">+ Add Administrator</button>
+      <button onClick={changeModalState} className="bg-primary text-white rounded px-3 py-2">+ Add Administrator</button>
       <div
         className={`fixed inset-0 z-50 flex items-center justify-center p-5 md:p-0
         transition-all duration-300
@@ -41,7 +63,7 @@ export default function AddAdmin() {
               <GrClose size={16}/>
             </button>
           </div>
-          <form className="mt-5 flex flex-col gap-3">
+          <form onSubmit={submitForm} className="mt-5 flex flex-col gap-3">
             <Input
               label="name"
               name="name"

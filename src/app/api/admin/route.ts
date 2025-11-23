@@ -27,3 +27,27 @@ export async function GET (req: NextRequest) {
     });
   }
 }
+
+export async function POST (req: NextRequest) {
+  try {
+    const body = await req.json()
+    const headers = req.headers as HeadersInit
+    const response = await apiClient("admins",
+      {
+        headers: headers,
+        method: 'POST',
+        body: JSON.stringify(body)
+      }
+    );
+    const data = await response.json();
+    return NextResponse.json(data);
+    
+  } catch {
+    return NextResponse.json({
+      code: 500,
+      status: "error",
+      message: 'Internal server error',
+      result: []
+    });
+  }
+}
