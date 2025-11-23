@@ -2,6 +2,7 @@
 import Image from "next/image"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { ChangeEvent, useEffect, useState } from "react"
+import { BiFilter } from "react-icons/bi"
 
 type Admin = {
   id: string,
@@ -9,6 +10,7 @@ type Admin = {
   email: string,
   profile_picture: string | null,
   role: string,
+  cssRole: string
 }
 
 export default function AdminPage () {
@@ -18,14 +20,14 @@ export default function AdminPage () {
   const q = searchParams.get("q") ?? ""
   const [admins, setAdmins] = useState<Admin[]>([])
   const [search, setSearch] = useState<string>(q)
-
+  const cssRole: Record<string, string> = {
+    "super admin": "text-green-600 bg-green-600/10",
+    "admin": "text-blue-600 bg-blue-600/10",
+    "staff": "text-indigo-600 bg-indigo-600/10"
+  }
   useEffect(() => {
     let url = "/api/admin"
     const fetchAdminList = async() => {
-    //   const query = {
-    //     q: search
-    //   }
-    //   const queryUrl = new URLSearchParams(query)
       const params = new URLSearchParams(searchParams.toString());
       url += `?${params.toString()}`
       const res = await fetch(url)
@@ -39,7 +41,8 @@ export default function AdminPage () {
             name: admin.name ?? "-",
             email: admin.email ?? "-",
             profile_picture: admin.profile_picture ?? null,
-            role: admin.role
+            role: admin.role,
+            cssRole: cssRole[admin.role] ? cssRole[admin.role] : ""
           }
           tempAdmin[index] = obj
         })
@@ -60,11 +63,11 @@ export default function AdminPage () {
   }
   return (
     <div>
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3 mb-5">
-        <div>
-          <h1 className="font-semibold text-lg">Adminstrator Management</h1>
-          <p>Manage administrator and their permissions</p>
-        </div>
+      <div className="flex justify-end mb-5 gap-3">
+        <button className="px-5 py-2 border border-line bg-white flex gap-2 items-center">
+          <BiFilter size={24}/>
+          Filter
+        </button>
         <button className="text-white bg-primary px-5 py-2 rounded">+ Add Administrator</button>
       </div>
       <div className="w-full rounded-xl p-5 bg-white mb-5 border border-line">
@@ -102,7 +105,11 @@ export default function AdminPage () {
               </td>
               <td className="px-4 py-3 border-b border-line capitalize">{admin.name}</td>
               <td className="px-4 py-3 border-b border-line">{admin.email}</td>
-              <td className={`px-4 py-3  border-b border-r border-line capitalize ${index == admins.length - 1 ? 'rounded-br-xl' : ''}`}>{admin.role}</td>
+              <td className={`px-4 py-3  border-b border-r border-line capitalize ${index == admins.length - 1 ? 'rounded-br-xl' : ''}`}>
+                <div className="w-full flex">
+                  <p className={`${admin.cssRole} px-2 py-1 rounded text-sm font-semibold`}>{admin.role}</p>
+                </div>
+              </td>
             </tr>
           )}
         </tbody>
