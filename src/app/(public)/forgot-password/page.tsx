@@ -8,22 +8,11 @@ import Link from "next/link";
 import { LuEye, LuEyeClosed } from "react-icons/lu";
 import { useRouter } from "next/navigation";
 
-export default function Home() {
+export default function ForgotPassword() {
   const router = useRouter()
-  const [isRemember, setIsRemember] = useState<boolean>(false)
-  const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [email, setEmail] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string>('')
-
-  const changeRememberState = () => {
-    const newValue = !isRemember
-    setIsRemember(newValue)
-  }
-
-  const changePasswordState = () => {
-    const newValue = !showPassword
-    setShowPassword(newValue)
-  }
 
   const submitForm = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -32,19 +21,18 @@ export default function Home() {
     const form = event.target as HTMLFormElement
     const formData = new FormData(form)
     const body = {
-      email: formData.get("email"),
-      password: formData.get("password")
+      email: formData.get("email")
     }
-    const res = await fetch ('/api/login', {
+    const res = await fetch ('/api/auth/forgot-password', {
       method: 'POST',
       body: JSON.stringify(body)
     })
     const rest = await res.json();
-    if (rest.code === 200) {
-      router.push("/console")
-    } else {
-      setErrorMessage(rest.message)
-    }
+    // if (rest.code === 200) {
+    //   router.push("/console")
+    // } else {
+    //   setErrorMessage(rest.message)
+    // }
     setLoading(false)
   }
 
@@ -69,8 +57,8 @@ export default function Home() {
               height={40}
               priority
             />
-            <p className="font-semibold text-primary text-center">Welcome Back</p>
-            <p>Sign in to access your account</p>
+            <p className="font-semibold text-primary text-center">Forgot Password</p>
+            <p>Input your email to receive verification code</p>
             <form
               onSubmit={submitForm}
               className="w-full flex flex-col gap-3">
@@ -85,42 +73,12 @@ export default function Home() {
                   className="w-full border border-gray-200 rounded px-3 py-2 outline-0"
                   placeholder="Email" />
               </div>
-              <div className="w-full">
-                <label className="inline-block font-medium mb-1">
-                  Password
-                </label>
-                <div className="relative w-full">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    required
-                    className="w-full border border-gray-200 rounded px-3 py-2 outline-0"
-                    placeholder="Password" />
-                    <button
-                      onClick={changePasswordState}
-                      type="button"
-                      className="text-primary absolute h-full px-2 right-0">
-                      {showPassword && <LuEye />}
-                      {!showPassword && <LuEyeClosed />}
-                    </button>
-                </div>
-              </div>
-              {errorMessage && <p className="text-red-600 italic capitalize">{errorMessage}</p>}
-              <button
-                onClick={changeRememberState}
-                type="button"
-                className="flex gap-2 items-center">
-                  <div className="w-4 h-4 border border-primary relative">
-                    {isRemember && <FaCheck className="absolute size-5 text-primary -left-0.5 -top-1"/>}
-                  </div>
-                  <span>Remember Me</span>
-              </button>
               <button
                 type="submit"
                 className="bg-primary text-white w-full rounded py-2">
-                Sign in
+                Send Verification Code
               </button>
-              <Link href="/forgot-password" className="text-center text-primary font-semibold">Forgot Password</Link>
+              <Link href="/" className="text-center text-primary font-semibold">Back To Login</Link>
             </form>
           </div>
         </div>

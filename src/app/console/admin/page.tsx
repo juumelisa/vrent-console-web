@@ -14,7 +14,7 @@ export default function Admin () {
 
   useEffect(() => {
     const fetchAdminList = async() => {
-      const res = await fetch('/api/admin/list')
+      const res = await fetch('/api/admin')
       const rest = await res.json()
       if (rest.code === 200) {
         const result: Admin[] = rest.result
