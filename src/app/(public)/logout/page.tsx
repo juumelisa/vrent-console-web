@@ -10,6 +10,7 @@ export default function Logout () {
       await fetchWithToken('/api/auth/logout', {
         method: 'post'
       })
+      localStorage.removeItem("user_id")
       router.push("/")
     }
     logOut()

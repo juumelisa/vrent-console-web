@@ -1,5 +1,6 @@
 "use client"
 import AddAdmin from "@/app/components/Admin/Add"
+import { useGlobalStore } from "@/store/useGlobalStore"
 import Image from "next/image"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { ChangeEvent, useEffect, useState } from "react"
@@ -21,6 +22,7 @@ export default function AdminPage () {
   const q = searchParams.get("q") ?? ""
   const [admins, setAdmins] = useState<Admin[]>([])
   const [search, setSearch] = useState<string>(q)
+  const user = useGlobalStore((s) => s.user)
   const cssRole: Record<string, string> = {
     "super admin": "text-green-600 bg-green-600/10",
     "admin": "text-blue-600 bg-blue-600/10",
@@ -69,8 +71,7 @@ export default function AdminPage () {
           <BiFilter size={24}/>
           Filter
         </button>
-        {/* <button className="text-white bg-primary px-5 py-2 rounded">+ Add Administrator</button> */}
-        <AddAdmin />
+        {user?.role === "super admin" && <AddAdmin />}
       </div>
       <div className="w-full rounded-xl p-5 bg-white mb-5 border border-line">
         <p className="font-semibold">Filter</p>

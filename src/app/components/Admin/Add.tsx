@@ -4,8 +4,14 @@ import Input from "../Input"
 
 export default function AddAdmin() {
   const [showModal, setShowModal] = useState(false)
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
   const changeModalState = () => {
     const newValue = !showModal
+    if (newValue) {
+      setName("")
+      setEmail("")
+    }
     setShowModal(newValue)
   }
   return (
@@ -38,10 +44,19 @@ export default function AddAdmin() {
           <form className="mt-5 flex flex-col gap-3">
             <Input
               label="name"
-              placeholder="Admin name" />
+              name="name"
+              placeholder="Admin name"
+              value={name}
+              required={true}
+              minLength={3}
+              onChange={setName} />
             <Input
               label="email"
-              placeholder="Admin email" />
+              placeholder="Admin email"
+              value={email}
+              type="email"
+              required={true}
+              onChange={setEmail} />
             <div className="w-full flex justify-end gap-3 mt-3">
               <button
                 onClick={changeModalState}

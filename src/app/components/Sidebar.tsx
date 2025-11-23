@@ -2,16 +2,19 @@
 import Image from "next/image"
 import logo from "@/app/assets/images/logo.png"
 import { TbLayoutSidebarLeftCollapse, TbLayoutSidebarRightCollapse } from "react-icons/tb"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { MdDirectionsCar, MdDvr, MdLogout, MdOutlineAdminPanelSettings, MdOutlineDashboard, MdOutlinePeople } from "react-icons/md"
 import { usePathname, useRouter } from "next/navigation"
+import { useGlobalStore } from "@/store/useGlobalStore";
 
 export default function Sidebar () {
   const currentPath = usePathname()
   const router = useRouter()
   const [open, setOpen] = useState<boolean>(false)
-  
+  const user = useGlobalStore((s) => s.user)
+  const setUser = useGlobalStore((s) => s.setUser)
+  // const userId = localStorage.getItem("user_id")
   const menuList = [
     {
       label: 'dashboard',
@@ -45,6 +48,29 @@ export default function Sidebar () {
     }
   ]
 
+  useEffect(() => {
+    const getUserInfo = async () => {
+      const res = await fetch("/api/user", {
+        method: "GET"
+      })
+      const data = await res.json()
+      if (data) {
+        if (data.code === 200) {
+          const result = data.result[0]
+          setUser(result)
+        } else if (data.code === 401) {
+          router.push("/logout")
+        } else {
+          console.log("error")
+        }
+      } else {
+        console.log("error")
+      }
+    }
+    if (!user) {
+      getUserInfo()
+    }
+  })
   const changeSidebarState = () => {
     const newValue = !open
     setOpen(newValue)
@@ -55,6 +81,7 @@ export default function Sidebar () {
     }
     router.push(to)
   }
+  
   return (
     <div className={`absolute lg:relative w-full ${open ? 'lg:max-w-60' : 'lg:max-w-20'} lg:h-full transition-all duration-500 border-r border-gray-200`}>
       <div className={`relative z-40 flex flex-row-reverse lg:flex-row justify-between ${open ? '' : 'lg:justify-center'} p-6 bg-white`}>
@@ -70,7 +97,7 @@ export default function Sidebar () {
         </div>
         <button
           onClick={changeSidebarState}
-          className="text-primary cursor-pointer">
+          className="text-primary cursor-pointer py-1.5">
           {open && <TbLayoutSidebarLeftCollapse className="size-7"/>}
           {!open && <TbLayoutSidebarRightCollapse className="size-7"/>}
         </button>
@@ -88,17 +115,6 @@ export default function Sidebar () {
                 <span className={open ? "overflow-hidden" : "lg:hidden"}>{menu.label}</span>
               </button>
               )}
-            </div>
-          </div>
-          <div className="w-full absolute bottom-0 p-5 border-t border-gray-200">
-            <div className={`flex justify-between ${open ? ' ' : 'lg:justify-center'} items-center gap-2`}>
-              <div className={open ? "h-11 overflow-hidden" : "lg:hidden"}>
-                <p>Wonwoo Jeon</p>
-                <p className="text-sm">Super Admin</p>
-              </div>
-              <Link href="/logout" className="text-primary">
-                <MdLogout className="size-7"/>
-              </Link>
             </div>
           </div>
         </div>

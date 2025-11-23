@@ -41,6 +41,9 @@ export default function Home() {
     })
     const rest = await res.json();
     if (rest.code === 200) {
+      const result = rest.result[0]
+      const userId = result.user_id
+      localStorage.setItem("user_id", userId)
       router.push("/console")
     } else {
       setErrorMessage(rest.message)

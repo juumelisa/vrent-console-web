@@ -13,7 +13,9 @@ export async function POST(req: Request) {
     const data = await response.json();
 
     if (data.code === 200) {
-      const token = data.result[0].token;
+      const result = data.result[0]
+      const token = result.token;
+      const userId = result.user.id
       const cookieStore = await cookies();
       cookieStore.set({
         name: "token",
@@ -24,7 +26,7 @@ export async function POST(req: Request) {
         path: "/",
       });
 
-      return NextResponse.json({ code: 200, message: "logged in", result: [] });
+      return NextResponse.json({ code: 200, message: "logged in", result: [{user_id: userId}] });
     } else {
       return NextResponse.json(data);
     }
