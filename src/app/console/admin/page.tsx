@@ -7,7 +7,8 @@ type Admin = {
   id: string,
   name: string,
   email: string,
-  profile_picture: string | null
+  profile_picture: string | null,
+  role: string,
 }
 
 export default function Admin () {
@@ -37,7 +38,8 @@ export default function Admin () {
             id: admin.id,
             name: admin.name ?? "-",
             email: admin.email ?? "-",
-            profile_picture: admin.profile_picture ?? null
+            profile_picture: admin.profile_picture ?? null,
+            role: admin.role
           }
           tempAdmin[index] = obj
         })
@@ -75,20 +77,21 @@ export default function Admin () {
             className="w-full border border-line px-3 py-2 rounded-lg outline-0" />
         </div>
       </div>
-      <table className="hidden md:inline-table w-full overflow-x-auto">
+      <table className="hidden md:inline-table w-full overflow-hidden border-separate border-spacing-0">
         <thead>
           <tr className="rounded-xl0 text-white">
             <th className="p-4 font-semibold text-left rounded-tl-xl bg-primary">No</th>
             <th className="p-4 font-semibold text-left bg-primary">Profile</th>
             <th className="p-4 font-semibold text-left bg-primary">Name</th>
-            <th className="p-4 font-semibold text-left rounded-tr-xl bg-primary">Email</th>
+            <th className="p-4 font-semibold text-left bg-primary">Email</th>
+            <th className="p-4 font-semibold text-left rounded-tr-xl bg-primary">Role</th>
           </tr>
         </thead>
         <tbody>
           {admins.map((admin, index) =>
             <tr key={admin.id} className={`hover:bg-gray-50 bg-white ${index < admins.length - 1 ? 'border-b border-line' : 'rounded-b-xl'}`}>
-              <td className={`px-4 py-3 ${index == admins.length - 1 ? 'rounded-bl-xl' : ''}`}>{index + 1}.</td>
-              <td className="px-4 py-3">
+              <td className={`px-4 py-3 border-b border-l border-line ${index == admins.length - 1 ? 'rounded-bl-xl' : ''}`}>{index + 1}.</td>
+              <td className="px-4 py-3 border-b border-line">
                 <div className="w-12 h-12 relative">
                   <Image
                     src={admin.profile_picture || "https://res.cloudinary.com/dme13qwgd/image/upload/v1759140504/VRent/1759140496555.jpg"}
@@ -97,8 +100,9 @@ export default function Admin () {
                     className="object-cover rounded-full" />
                 </div>
               </td>
-              <td className="px-4 py-3">{admin.name}</td>
-              <td className={`px-4 py-3 ${index == admins.length - 1 ? 'rounded-br-xl' : ''}`}>{admin.email}</td>
+              <td className="px-4 py-3 border-b border-line capitalize">{admin.name}</td>
+              <td className="px-4 py-3 border-b border-line">{admin.email}</td>
+              <td className={`px-4 py-3  border-b border-r border-line capitalize ${index == admins.length - 1 ? 'rounded-br-xl' : ''}`}>{admin.role}</td>
             </tr>
           )}
         </tbody>
