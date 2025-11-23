@@ -1,4 +1,5 @@
 "use client"
+import AddAdmin from "@/app/components/Admin/Add"
 import Image from "next/image"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { ChangeEvent, useEffect, useState } from "react"
@@ -68,7 +69,8 @@ export default function AdminPage () {
           <BiFilter size={24}/>
           Filter
         </button>
-        <button className="text-white bg-primary px-5 py-2 rounded">+ Add Administrator</button>
+        {/* <button className="text-white bg-primary px-5 py-2 rounded">+ Add Administrator</button> */}
+        <AddAdmin />
       </div>
       <div className="w-full rounded-xl p-5 bg-white mb-5 border border-line">
         <p className="font-semibold">Filter</p>
