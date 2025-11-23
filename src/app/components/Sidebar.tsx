@@ -97,7 +97,7 @@ export default function Sidebar () {
         </div>
         <button
           onClick={changeSidebarState}
-          className="text-primary cursor-pointer py-1.5">
+          className="text-primary cursor-pointer">
           {open && <TbLayoutSidebarLeftCollapse className="size-7"/>}
           {!open && <TbLayoutSidebarRightCollapse className="size-7"/>}
         </button>

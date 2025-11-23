@@ -39,7 +39,7 @@ export default function Headers () {
     setShowMenu(newState)
   }
   return (
-    <div className="w-full p-5 bg-white border-y border-line flex justify-between items-center">
+    <div className="w-full px-5 py-3 bg-white border-y border-line flex justify-between items-center">
       <h1 className="font-semibold capitalize text-lg">{title}</h1>
       <div ref={ref} className="relative">
         <button onClick={changeMenuState} className="relative w-10 h-10">
@@ -53,13 +53,13 @@ export default function Headers () {
         </button>
         <div
           className={`
-            min-w-48 w-full absolute right-0 z-50 overflow-hidden transition-all duration-300 ease-in-out
+            w-52 absolute right-0 z-50 overflow-hidden transition-all duration-300 ease-in-out
             ${showMenu ? "max-h-44 opacity-100" : "max-h-0 opacity-0"}
           `}
         >
           <div className="bg-white rounded border border-line">
             <div className="capitalize border-b border-line p-3 text-center">
-              <p className="font-semibold">{user?.name}</p>
+              <p className="font-semibold truncate">{user?.name}</p>
               <div className="flex justify-center">
                 {user?.role && <p className={`px-2 text-sm font-semibold ${cssRole[user.role]}`}>{user.role}</p>}
               </div>

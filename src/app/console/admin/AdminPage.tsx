@@ -20,8 +20,34 @@ export default function AdminPage () {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const q = searchParams.get("q") ?? ""
-  const [admins, setAdmins] = useState<Admin[]>([])
+  const [admins, setAdmins] = useState<Admin[]>([
+    {
+      id: "1",
+      name: "",
+      email: "",
+      profile_picture: "",
+      role: "",
+      cssRole: ""
+    },
+    {
+      id: "2",
+      name: "",
+      email: "",
+      profile_picture: "",
+      role: "",
+      cssRole: ""
+    },
+    {
+      id: "3",
+      name: "",
+      email: "",
+      profile_picture: "",
+      role: "",
+      cssRole: ""
+    }
+  ])
   const [search, setSearch] = useState<string>(q)
+  const [loading, setLoading] = useState<boolean>(true)
   const user = useGlobalStore((s) => s.user)
   const cssRole: Record<string, string> = {
     "super admin": "text-green-600 bg-green-600/10",
@@ -31,6 +57,7 @@ export default function AdminPage () {
   useEffect(() => {
     let url = "/api/admin"
     const fetchAdminList = async() => {
+      setLoading(true)
       const params = new URLSearchParams(searchParams.toString());
       url += `?${params.toString()}`
       const res = await fetch(url)
@@ -53,6 +80,7 @@ export default function AdminPage () {
       } else {
         console.log('error')
       }
+      setLoading(false)
     }
     fetchAdminList()
   }, [searchParams])
@@ -96,21 +124,32 @@ export default function AdminPage () {
         <tbody>
           {admins.map((admin, index) =>
             <tr key={admin.id} className={`hover:bg-gray-50 bg-white ${index < admins.length - 1 ? 'border-b border-line' : 'rounded-b-xl'}`}>
-              <td className={`px-4 py-3 border-b border-l border-line ${index == admins.length - 1 ? 'rounded-bl-xl' : ''}`}>{index + 1}.</td>
+              <td className={`px-4 py-3 border-b border-l border-line ${index == admins.length - 1 ? 'rounded-bl-xl' : ''}`}>
+                {loading && <div className="w-10 h-5 animate-pulse bg-line" />}
+                {!loading && <div>{index + 1}.</div>}
+              </td>
               <td className="px-4 py-3 border-b border-line">
                 <div className="w-12 h-12 relative">
-                  <Image
+                  {!loading && <Image
                     src={admin.profile_picture || "https://res.cloudinary.com/dme13qwgd/image/upload/v1759140504/VRent/1759140496555.jpg"}
                     fill
                     alt={admin.name}
-                    className="object-cover rounded-full" />
+                    className="object-cover rounded-full" />}
+                  {loading && <div className="w-full h-full bg-line animate-pulse rounded-full" />}
                 </div>
               </td>
-              <td className="px-4 py-3 border-b border-line capitalize">{admin.name}</td>
-              <td className="px-4 py-3 border-b border-line">{admin.email}</td>
+              <td className="px-4 py-3 border-b border-line capitalize">
+                {loading && <div className="w-full h-5 animate-pulse bg-line" />}
+                {!loading && <div>{admin.name}</div>}
+              </td>
+              <td className="px-4 py-3 border-b border-line">
+                {loading && <div className="w-full h-5 animate-pulse bg-line" />}
+                {!loading && <div>{admin.email}</div>}
+              </td>
               <td className={`px-4 py-3  border-b border-r border-line capitalize ${index == admins.length - 1 ? 'rounded-br-xl' : ''}`}>
                 <div className="w-full flex">
-                  <p className={`${admin.cssRole} px-2 py-1 rounded text-sm font-semibold`}>{admin.role}</p>
+                  {loading && <div className="w-full h-5 animate-pulse bg-line" />}
+                  {!loading &&<p className={`${admin.cssRole} px-2 py-1 rounded text-sm font-semibold`}>{admin.role}</p>}
                 </div>
               </td>
             </tr>
