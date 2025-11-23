@@ -3,16 +3,18 @@ import Image from "next/image";
 import backgroundHomepage from "@/app/assets/images/background-homepage.png"
 import logo from "@/app/assets/images/logo.png"
 import { FaCheck } from "react-icons/fa";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import { LuEye, LuEyeClosed } from "react-icons/lu";
 import { useRouter } from "next/navigation";
+import { useGlobalStore } from "@/store/useGlobalStore";
 
 export default function Home() {
   const router = useRouter()
   const [isRemember, setIsRemember] = useState<boolean>(false)
   const [showPassword, setShowPassword] = useState<boolean>(false)
-  const [loading, setLoading] = useState<boolean>(false)
+  const loading = useGlobalStore((el) => el.load)
+  const setLoading = useGlobalStore((el) => el.setLoad)
   const [errorMessage, setErrorMessage] = useState<string>('')
 
   const changeRememberState = () => {
@@ -41,16 +43,15 @@ export default function Home() {
     })
     const rest = await res.json();
     if (rest.code === 200) {
-      const result = rest.result[0]
-      const userId = result.user_id
-      localStorage.setItem("user_id", userId)
       router.push("/console")
     } else {
       setErrorMessage(rest.message)
+      setLoading(false)
     }
-    setLoading(false)
   }
-
+  useEffect(() => {
+    setLoading(false)
+  })
   return (
     <div className="flex min-h-screen items-center justify-center bg-white font-sans">
       <main className="w-full flex">

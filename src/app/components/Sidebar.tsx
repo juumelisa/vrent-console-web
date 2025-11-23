@@ -14,6 +14,9 @@ export default function Sidebar () {
   const [open, setOpen] = useState<boolean>(false)
   const user = useGlobalStore((s) => s.user)
   const setUser = useGlobalStore((s) => s.setUser)
+  const load = useGlobalStore((s) => s.load)
+  const setLoad = useGlobalStore((s) => s.setLoad)
+
   // const userId = localStorage.getItem("user_id")
   const menuList = [
     {
@@ -70,12 +73,14 @@ export default function Sidebar () {
     if (!user) {
       getUserInfo()
     }
-  })
+    setLoad(false)
+  }, [currentPath])
   const changeSidebarState = () => {
     const newValue = !open
     setOpen(newValue)
   }
   const changeRoute = (to: string) => {
+    setLoad(true)
     if (window.innerWidth < 1024) {
       setOpen(false)
     }

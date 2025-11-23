@@ -34,6 +34,8 @@ export default function AddAdmin() {
     if (data.code === 200) {
       router.refresh()
       setShowModal(false)
+    } else if (data.code === 401) {
+      router.push("/logout")
     }
   }
   return (

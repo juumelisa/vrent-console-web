@@ -3,15 +3,17 @@
 import { useGlobalStore } from "@/store/useGlobalStore";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react"
 import { MdLogout, MdOutlineSettings } from "react-icons/md";
 
 export default function Headers () {
   const pathname = usePathname()
+  const router = useRouter()
   const [title, setTitle] = useState("");
   const [showMenu, setShowMenu] = useState(false);
   const user = useGlobalStore((s) => s.user)
+  const setLoad = useGlobalStore((s) => s.setLoad)
   const ref = useRef<HTMLDivElement>(null);
   const cssRole: Record<string, string> = {
     "super admin": "text-green-600 bg-green-600/10",
@@ -37,6 +39,10 @@ export default function Headers () {
   const changeMenuState = () => {
     const newState = !showMenu
     setShowMenu(newState)
+  }
+  const goToo = (path: string) => {
+    setLoad(true)
+    router.push(path)
   }
   return (
     <div className="w-full px-5 py-3 bg-white border-y border-line flex justify-between items-center">
@@ -65,14 +71,14 @@ export default function Headers () {
               </div>
             </div>
             <div>
-              <Link href="/settings" className="flex items-center gap-2 hover:bg-gray-100 p-3">
+              <button onClick={() => goToo("/settings")} className="flex items-center gap-2 hover:bg-gray-100 p-3">
                 <MdOutlineSettings className="size-6"/>
                 <span>Setting</span>
-              </Link>
-              <Link href="/logout" className="flex items-center gap-2 hover:bg-gray-100 p-3">
+              </button>
+              <button onClick={() => goToo("/logout")} className="w-full flex items-center gap-2 hover:bg-gray-100 p-3">
                 <MdLogout className="size-6"/>
                 <span>Logout</span>
-              </Link>
+              </button>
             </div>
           </div>
         </div>
