@@ -13,7 +13,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Vrent Console",
+  title: {
+    default: "vrent",
+    template: "%s - vrent",
+  },
   description: "Welcome to vrent console",
 };
 

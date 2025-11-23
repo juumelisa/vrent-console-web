@@ -5,7 +5,7 @@ import PieChartDemo from "../components/PieChart"
 import BarChartDemo from "../components/BarChart"
 
 export const metadata: Metadata = {
-  title: 'Dashboard - vrent'
+  title: 'Dashboard'
 }
 
 export default function Console () {
